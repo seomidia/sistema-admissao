@@ -24,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Voyager::addAction(\App\Actions\AmissionAction::class);
-        Voyager::addAction(\App\Actions\PrintAction::class);
+        if($_SERVER['REQUEST_URI'] == '/admin/admissions'){
+            Voyager::addAction(\App\Actions\AmissionAction::class);
+            Voyager::addAction(\App\Actions\PrintAction::class);
+        }
     }
 }
