@@ -33,6 +33,7 @@ class VoyagerBaseController extends BaseVoyagerBaseController
             $admission->cnpj = $company->cnpj;
             $admission->razao_social = $company->razao_social;
             $admission->nome_fantasia = $company->nome_fantasia;
+            $admission->user_id = \Auth()->user()->id;
             
             if ($admission->save()) {
                 $redirect = redirect()->route("voyager.admissions.index");
