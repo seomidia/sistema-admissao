@@ -1,0 +1,8 @@
+.app-container .content-container .side-menu .navbar-header .navbar-brand img {
+    max-width: 79%;
+    max-height: 50%;
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    background: #fff;
+  }
