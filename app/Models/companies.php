@@ -11,6 +11,7 @@ class companies extends Model
 
     public function scopeCurrentUser($query)
     {
-        return  $query->where('user_id', \Auth::user()->id);
+        if(\Auth::user()->role->name == 'empresa')
+            return  $query->where('user_id', \Auth::user()->id);
     }
 }
