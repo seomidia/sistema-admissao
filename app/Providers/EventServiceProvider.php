@@ -7,6 +7,9 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+use App\Listeners\SendadmissionNotification;
+use App\Events\AdmissionProcessed;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        AdmissionProcessed::class => [
+            SendadmissionNotification::class
+        ],
+        // varios listeners neste evento
     ];
 
     /**
@@ -27,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(
+            AdmissionProcessed::class,
+            [SendadmissionNotification::class, 'handle']
+        );
     }
 }

@@ -390,6 +390,7 @@
                     </table>
                 </div>
             </fieldset>
+            <p> <input type="checkbox" name="termo" @if($admission->termo == 'sim') checked @endif id="termo" value="sim"> <a target="_blanck" href="{{url('/TERMODECONSENTIMENTOPARATRATAMENTODEDADOSPESSOAIS.pdf')}}">Termo de Consentimento </a> para tratamento de dados. </p>
             <button class="btn btn-primary" type="submit">Enviar admissão</button>
         </div>
     </div>
@@ -474,7 +475,7 @@
             jQuery('input#' + id).trigger('click');
         })
 
-    jQuery('.horario input[type="checkbox"]').change(function(){
+    jQuery('.horario fieldset input[type="checkbox"]').change(function(){
         var classe = jQuery(this)[0].dataset.line;
 
         var n = jQuery('.horario '+'input.' + classe+':checked').length;

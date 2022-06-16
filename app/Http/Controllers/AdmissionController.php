@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Schedules;
 use PDF;
+use App\Events\AdmissionProcessed;
 
 class AdmissionController extends Controller
 {
@@ -96,9 +97,10 @@ class AdmissionController extends Controller
     public function store(Request $request,$id)
     {
         $data = $request->all();
+        $admission = Admission::find($id);
+
         foreach ($data as $key => $value) {
             if(!in_array($key,['_token','horario','arquivo'])){
-               $admission = Admission::find($id);
                $admission->$key = $value;
                $admission->save();
             }elseif($key == 'arquivo'){
@@ -165,6 +167,8 @@ class AdmissionController extends Controller
             }
         }
 
+        event(new AdmissionProcessed($admission));
+
         return redirect()->back();
     }
 
@@ -230,7 +234,6 @@ class AdmissionController extends Controller
         ->where('admissions.id',$admission_id)
         ->first();
 
-        // $html = file_get_contents('http://dev.admissao.com/admissao/1/imprimir');
 
         return  \PDF::loadView('front.imprimir',[
                 'dias'=> $diasSemana,
@@ -241,27 +244,5 @@ class AdmissionController extends Controller
         ->setPaper('a4', 'portrait')
         // ->save('admissao.pdf')
         ->download('admissao.pdf');
-        
-
-        // $pdf = PDF::make('dompdf.wrapper');
-        // $pdf->loadHTML('<h1>Test</h1>');
-        // return $pdf->stream();
-
-        // $pdf = PDF::loadView('front.imprimir');
-        // return $pdf->download('invoice.pdf');
-
-        // $pdf = PDF::loadView('front.imprimir');
-        // return $pdf->stream();
-
-      // download PDF file with download method
-    //   dd($pdf);
-    //   return $pdf->download('pdf_file.pdf');
-
-        // return view('front.imprimir',[
-        //     'dias'=> $diasSemana,
-        //     'admission'=>$admission,
-        //     'schedules' => $schedules,
-        //     'files' => $files
-        // ]);
     }
 }

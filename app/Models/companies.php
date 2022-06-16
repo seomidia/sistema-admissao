@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class companies extends Model
 {
     use HasFactory;
-    
+
     public function scopeCurrentUser($query)
     {
         return  $query->where('user_id', \Auth::user()->id);
