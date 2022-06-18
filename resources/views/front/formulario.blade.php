@@ -561,6 +561,10 @@
 @section('footer_js')
 <script>
     jQuery(document).ready(function(){
+        jQuery("#cep").mask("9999-9999");
+        jQuery("#telefone").mask("(99) 9999-9999");
+        jQuery("#celular").mask("(99) 9 9999-9999");
+        jQuery("input.cpf").mask("999.999.999-99");
         jQuery('input[type="file"]').change(function(){
             var filename = this.files[0].name;
             var id       = jQuery(this).attr('id');
@@ -681,12 +685,14 @@
             var html = ''+
            ' <tr>'+
                 '<td><input type="text" class="form-control" name="filhos[name][]" value=""></td>'+
-                '<td><input type="text" class="form-control" name="filhos[dt_nascimento][]" value=""></td>'+
-                '<td><input type="text" class="form-control" name="filhos[cpf][]" value=""></td>'+
+                '<td><input type="date" class="form-control" name="filhos[dt_nascimento][]" value=""></td>'+
+                '<td><input type="text" class="form-control cpf" name="filhos[cpf][]" value=""></td>'+
                 '<td><input type="file" class="form-control" name="filhos[file][]" value=""></td>'+
                 '<td><a href="#" class="btn btn-danger remove">x</a></td>'+
             '</tr>';
             jQuery('table tbody#content').prepend(html);
+            jQuery("#content tr td input.cpf").mask("999.999.999-99");
+
             showbtn_remove();
             setTimeout(function(){
                 btnremove();

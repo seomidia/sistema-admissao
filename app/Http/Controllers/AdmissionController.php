@@ -130,7 +130,11 @@ class AdmissionController extends Controller
 
         foreach ($data as $key => $value) {
             if(!in_array($key,['_token','horario','arquivo','doc','filhos'])){
-               $admission->$key = $value;
+                if($key == 'salario'){
+                    $admission->$key = preg_replace('/[^0-9]/', '', $value);
+                }else{
+                    $admission->$key = $value;
+                }
                $admission->save();
             }elseif($key == 'arquivo'){
                 foreach ($request->arquivo as $key => $value) {
