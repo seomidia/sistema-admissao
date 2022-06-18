@@ -90,23 +90,28 @@
         <tr>
             <td class="title" colspan="3" style="text-align: center;">DOCUMENTOS PESSOAIS (anexos)</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="3"><a target="_blanck" href="{{url($files['carteira_trabalho']['url'])}}" class="btn btn-primary open"><label for="">CARTEIRA DE TRABALHO </label> </a></td>
+        </tr> --}}
+        <tr>
+            <td colspan="2"><a target="_blanck" href="{{url($files['cedula_identidade']['url'])}}" class="btn btn-primary open"><label for="">CÉDULA DE IDENTIDADE  </label> </a> </td>
+            <td>{{$admission->cedula_identidade}}</td>
         </tr>
         <tr>
-            <td colspan="3"><a target="_blanck" href="{{url($files['cedula_identidade']['url'])}}" class="btn btn-primary open"><label for="">CÉDULA DE IDENTIDADE  </label> </a></td>
+            <td colspan="2"><a target="_blanck" href="{{url($files['cpf']['url'])}}" class="btn btn-primary open"><label for="">CPF  </label> </a></td>
+            <td>{{$admission->cpf}}</td>
         </tr>
         <tr>
-            <td colspan="3"><a target="_blanck" href="{{url($files['cpf']['url'])}}" class="btn btn-primary open"><label for="">CPF  </label> </a></td>
+            <td colspan="2"><a target="_blanck" href="{{url($files['titulo_eleitor']['url'])}}" class="btn btn-primary open"><label for="">TITULO DE ELEITOR </label> </a> </td>
+            <td>{{$admission->titulo_eleitor}}</td>
         </tr>
         <tr>
-            <td colspan="3"><a target="_blanck" href="{{url($files['titulo_eleitor']['url'])}}" class="btn btn-primary open"><label for="">TITULO DE ELEITOR </label> </a></td>
+            <td colspan="2"><a target="_blanck" href="{{url($files['cert_reservista']['url'])}}" class="btn btn-primary open"><label for="">CERT. DE RESERVISTA </label> </a> </td>
+            <td>{{$admission->cert_reservista}}</td>
         </tr>
         <tr>
-            <td colspan="3"><a target="_blanck" href="{{url($files['cert_reservista']['url'])}}" class="btn btn-primary open"><label for="">CERT. DE RESERVISTA </label> </a></td>
-        </tr>
-        <tr>
-            <td colspan="3"><a target="_blanck" href="{{url($files['pis']['url'])}}" class="btn btn-primary open"><label for="">PIS/PASEP </label> </a></td>
+            <td colspan="2"><a target="_blanck" href="{{url($files['pis']['url'])}}" class="btn btn-primary open"><label for="">PIS/PASEP </label> </a> </td>
+            <td>{{$admission->pis}} @if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
         </tr>
         @endif
         <tr>
@@ -136,7 +141,15 @@
         </tr>
         <tr>
             <td colspan="2">DESCREVER QUANTAS CONDUÇÕES (ÔNIBUS) SERÃO UTILIZADAS PARA:</td>
-            <td>{{$admission->vt_modalidade }}</td>
+            <td>
+                @php 
+                    $desc = explode('&',$admission->vt_modalidade);
+                    $msg  = implode(' ', $desc);
+                    
+
+                    echo str_replace(['casa','trabalo'],['Casa para','trabalho'],$msg);
+                @endphp
+            </td>
         </tr>
         <tr>
             <td colspan="2">DESCONTAR % DO FUNCIONÁRIO. </td>

@@ -9,6 +9,7 @@ use App\Models\File;
 use App\Models\Schedules;
 use PDF;
 use App\Events\AdmissionProcessed;
+use App\Models\Child;
 
 class AdmissionController extends Controller
 {
@@ -17,11 +18,13 @@ class AdmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($admission_id)
+    public function index($admission_id,$etapa)
     {
         $diasSemana = ['Segunda','Terçã','Quarta','Quinta','Sexta','Sábado','Domingo'];
         
         $files = $this->get_Files($admission_id);
+
+        $filesChild = $this->get_Child($admission_id);
 
         $schedules = $this->get_schedules($admission_id);
 
@@ -38,7 +41,9 @@ class AdmissionController extends Controller
             'dias'=> $diasSemana,
             'admission'=>$admission,
             'files' => $files,
-            'schedules' => $schedules
+            'schedules' => $schedules,
+            'etapa' => $etapa,
+            'child' => $filesChild
         ]);
     }
 
@@ -62,6 +67,29 @@ class AdmissionController extends Controller
         return $NomaliseSchedules;
     }
 
+    public function get_Child($admission_id){
+        $files = \DB::table('files')
+        ->select(
+            'files.*',
+            'children.*'
+        )
+        ->join('children','files.parent','=','children.id')
+        ->where(['files.admission_id'=>$admission_id,'files.doctype' => 'cert_de_nascimento'])->get();
+        $NomaliseFile = [];
+        foreach ($files as $key => $value) {
+            $NomaliseFile[$value->doctype][] = [
+                'id'  => $value->id,
+                'url' => $value->url_file,
+                'child' => $value->parent,
+                'name' => $value->name,
+                'dt_nascimento' => $value->dt_nascimento,
+                'cpf' => $value->cpf,
+                'admission_id' => $value->admission_id
+            ];
+        }
+
+        return $NomaliseFile;
+    }
     public function get_Files($admission_id)
     {
 
@@ -94,13 +122,14 @@ class AdmissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request,$id,$etapa)
     {
         $data = $request->all();
+
         $admission = Admission::find($id);
 
         foreach ($data as $key => $value) {
-            if(!in_array($key,['_token','horario','arquivo'])){
+            if(!in_array($key,['_token','horario','arquivo','doc','filhos'])){
                $admission->$key = $value;
                $admission->save();
             }elseif($key == 'arquivo'){
@@ -126,6 +155,16 @@ class AdmissionController extends Controller
                         $storeFile->save();
                     }
                 }
+            }elseif($key == 'doc'){
+                foreach ($data['doc'] as $key => $value) {
+                    $admission->$key = (isset($value['text']) ? $value['text'] : '');
+                    if(isset($value['primeiro_emprego'])){
+                        $admission->primeiro_emprego = $value['primeiro_emprego'];
+                    }else{
+                        $admission->primeiro_emprego = 'nao';
+                    }
+                    $admission->save();
+                }
             }elseif($key == 'horario'){
                 $exist = \DB::table('schedules')->where('admission_id', $admission->id)->count();
                 if($exist > 0){
@@ -139,7 +178,7 @@ class AdmissionController extends Controller
                         $Schedules->h_entrada_tarde = (!isset($h['entradaTarde'][0])) ? '' : $h['entradaTarde'][0] ;
                         $Schedules->h_saida_tarde   = (!isset($h['saidaTarde'][0])) ? '' : $h['saidaTarde'][0];
                         $Schedules->h_entrada_noite = (!isset($h['entradaNoite'][0])) ? '' : $h['entradaNoite'][0];
-                        $Schedules->h_saida_noite   = (!isset($h['saidaNoite'][0])) ? '' : $h['entradaNoite'][0];
+                        $Schedules->h_saida_noite   = (!isset($h['saidaNoite'][0])) ? '' : $h['saidaNoite'][0];
                         $Schedules->folga           = 'off';
                         if(isset($h['folga'][0]))
                            $Schedules->folga           = $h['folga'][0];
@@ -156,7 +195,8 @@ class AdmissionController extends Controller
                         $Schedules->h_entrada_tarde = (!isset($h['entradaTarde'][0])) ? '' : $h['entradaTarde'][0] ;
                         $Schedules->h_saida_tarde   = (!isset($h['saidaTarde'][0])) ? '' : $h['saidaTarde'][0];
                         $Schedules->h_entrada_noite = (!isset($h['entradaNoite'][0])) ? '' : $h['entradaNoite'][0];
-                        $Schedules->h_saida_noite   = (!isset($h['saidaNoite'][0])) ? '' : $h['entradaNoite'][0];
+                        $Schedules->h_saida_noite   = (!isset($h['saidaNoite'][0])) ? '' : $h['saidaNoite'][0];
+
                         $Schedules->folga           = 'off';
                         if(isset($h['folga'][0]))
                            $Schedules->folga           = $h['folga'][0];
@@ -164,12 +204,71 @@ class AdmissionController extends Controller
                         $Schedules->save();
                     }
                 }
+            }elseif($key == 'filhos'){
+                for ($i=0; $i < count($data['filhos']['name']); $i++) { 
+                      
+                     $row = [
+                        'name' => $data['filhos']['name'][$i],
+                        'dt_nascimento' => $data['filhos']['dt_nascimento'][$i],
+                        'cpf' => $data['filhos']['cpf'][$i],
+                        'admission_id' => $admission->id
+                     ];
+                     
+                     $exist = \DB::table('children')->where($row);
+
+                     if($exist->count() == 0 ){
+                        if(isset($data['filhos']['file'][$i])){
+                            $filhos = Child::create($row);
+
+                                $file = $data['filhos']['file'][$i];
+
+                                $name = uniqid(date('HisYmd'));
+                                $extension = $file->extension();
+                                $nameFile = "{$name}.{$extension}";
+
+                                $storeFile = new File();
+                                $storeFile->admission_id = $admission->id;
+                                $storeFile->parent = $filhos->id;
+                                $storeFile->doctype = 'cert_de_nascimento';
+                                $storeFile->url_file  = str_replace('public','storage',$file->storeAs('/public/documentos/' . $admission->nome, $nameFile));
+                                $storeFile->save();
+                        }else{
+                            $redirect = redirect()->back();
+
+                            return $redirect->with([
+                                'error'    => "Certidão de nascimento dos filhos são obrigatorio!"
+                            ]);
+                
+                        }
+                    }else{
+
+                        $filhos = $exist->first();
+                        $filhos = Child::find($filhos->id);
+                        $filhos->name = $data['filhos']['name'][$i];
+                        $filhos->dt_nascimento = $data['filhos']['dt_nascimento'][$i];
+                        $filhos->cpf = $data['filhos']['cpf'][$i];
+                        $filhos->save();
+                        
+                    }
+                }
             }
         }
 
         event(new AdmissionProcessed($admission));
+        if($etapa == 1){
+            return response()->json([
+                'success' => true,
+                'title' => 'Sucesso!',
+                'text' => 'Admissão processada!',
+                'icon' => 'success',
+            ],200);
+        }else{
+            $redirect = redirect()->back();
 
-        return redirect()->back();
+            return $redirect->with([
+                'message'    => "Admissão completada com sucesso!"
+            ]);
+        }
     }
 
     /**

@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/admissao/{admission}/solicitacao',[App\Http\Controllers\AdmissionController::class,'index'])->name('admission-form');
-Route::post('/admissao/{admission}/solicitacao',[App\Http\Controllers\AdmissionController::class,'store'])->name('admission-form.store');
+Route::get('/admissao/{admission}/{etapa}/solicitacao',[App\Http\Controllers\AdmissionController::class,'index'])->name('admission-form');
+Route::post('/admissao/{admission}/{etapa}/solicitacao',[App\Http\Controllers\AdmissionController::class,'store'])->name('admission-form.store');
 Route::get('/admissao/{admission}/imprimir',[App\Http\Controllers\AdmissionController::class,'print'])->name('admission-form.print');
+Route::get('/child/{child}/delete',[App\Http\Controllers\ChildController::class,'destroy'])->name('delete.child');
 
 
 Route::group(['prefix' => 'admin'], function () {
