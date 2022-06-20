@@ -23,6 +23,18 @@
     </div>
 @endif
 
+@if ($errors->any())
+<div class="row justify-content-center">
+    <div class="col-md-9 my-3 alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+
 <form method="POST" action="{{url('/admissao/'.$admission->id.'/'.$etapa.'/solicitacao')}}" name="admissao" enctype="multipart/form-data">
     @csrf
 
@@ -197,7 +209,6 @@
                         </table>
                     </div>
                 </fieldset>
-                <p> <input type="checkbox" name="termo" @if($admission->termo == 'sim') checked @endif id="termo" value="sim"> <a target="_blanck" href="{{url('/TERMODECONSENTIMENTOPARATRATAMENTODEDADOSPESSOAIS.pdf')}}">Termo de Consentimento </a> para tratamento de dados. </p>
                 <button class="btn btn-primary" type="submit">Iniciar admissão</button>
             </div>
         @endif
@@ -484,17 +495,17 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="vt" class="form-label">DESCREVER QUANTAS CONDUÇÕES (ÔNIBUS) SERÃO UTILIZADAS PARA:</label>
+                            <label for="vt" class="form-label"> Deseja receber vale transporte:</label>
                             <div class="form-check">
-                                <input class="form-check-input" name="vt_modalidade" type="radio" value="casa&trabalo&ida&ou&volta" id="iraotrabalho" @if($admission->vt_modalidade == 'casa&trabalo&ida&ou&volta') checked @endif>
+                                <input class="form-check-input" name="vt_modalidade" type="radio" value="sim" id="iraotrabalho" @if($admission->vt_modalidade == 'sim') checked @endif>
                                 <label class="form-check-label" for="iraotrabalho">
-                                    Casa para trabalho Ida ou volta
+                                    Sim
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="vt_modalidade" value="casa&trabalo&ida&e&volta" id="irpracasa" @if($admission->vt_modalidade == 'casa&trabalo&ida&e&volta') checked @endif>
+                                <input class="form-check-input" type="radio" name="vt_modalidade" value="nao" id="irpracasa" @if($admission->vt_modalidade == 'nao') checked @endif>
                                 <label class="form-check-label" for="irpracasa">
-                                    Casa para trabalho Ida e volta
+                                    Não
                                 </label>
                             </div>
                             <div class="form-check" style="padding-left: 0;">
@@ -505,7 +516,8 @@
                             </div>
                         </div>
                     </div>
-                </fieldset>
+                </fieldset>                
+                <p> <input type="checkbox" name="termo" @if($admission->termo == 'sim') checked @endif id="termo" value="sim"> <a target="_blanck" href="{{url('/TERMODECONSENTIMENTOPARATRATAMENTODEDADOSPESSOAIS.pdf')}}">Termo de Consentimento </a> para tratamento de dados. </p>
                 <button class="btn btn-primary" type="submit">Enviar admissão</button>
             </div>
         @endif
@@ -667,6 +679,12 @@
                     });
 
                 }
+            }).fail(function (jqXHR, textStatus) {
+                Swal.fire({
+                    title: jqXHR.responseJSON.title,
+                    text: jqXHR.responseJSON.text,
+                    icon: 'error'
+                })
             })
         });
         @endif

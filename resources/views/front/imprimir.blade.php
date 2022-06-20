@@ -140,14 +140,10 @@
             <td> @if($admission->vale_transporte == 1) Sim @else Nao @endif</td>
         </tr>
         <tr>
-            <td colspan="2">DESCREVER QUANTAS CONDUÇÕES (ÔNIBUS) SERÃO UTILIZADAS PARA:</td>
+            <td colspan="2"> Deseja receber vale transporte:</td>
             <td>
                 @php 
-                    $desc = explode('&',$admission->vt_modalidade);
-                    $msg  = implode(' ', $desc);
-                    
-
-                    echo str_replace(['casa','trabalo'],['Casa para','trabalho'],$msg);
+                    echo $admission->vt_modalidade;
                 @endphp
             </td>
         </tr>
