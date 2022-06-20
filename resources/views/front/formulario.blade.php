@@ -136,18 +136,38 @@
                                     <td><input type="checkbox" class="line-{{$key}}" data-line="line-{{$key}}" name="horario[{{tirarAcentos(strtolower($item))}}][folga][]" value="{{$folga}}" @if($folga != 'off') checked @endif></td>    
                                     <td class="totaldia">
                                         @php 
+                                        if(!empty($schedules)){
+                                            $entradaManha = 0;
+                                            $saidaManha = 0;
+                                            $entradatarde = 0;
+                                            $saidatarde = 0;
+                                            $entradanoite = 0;
+                                            $saidanoite = 0;
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_entrada_manha'] != '00:00') {
+                                              $entradaManha = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_manha']);
+                                            }
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_saida_manha'] != '00:00') 
+                                              $saidaManha   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_manha']);
 
-                                        $entradaManha = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_manha']);
-                                        $saidaManha   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_manha']);
-                                        $entradatarde = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_tarde']);
-                                        $saidatarde   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_tarde']);
-                                        $entradanoite = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_noite']);
-                                        $saidanoite   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_noite']);
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_entrada_tarde'] != '00:00') 
+                                              $entradatarde = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_tarde']);
+
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_saida_tarde'] != '00:00') 
+                                              $saidatarde   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_tarde']);
+
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_entrada_noite'] != '00:00') 
+                                              $entradanoite = strtotime($schedules[tirarAcentos(strtolower($item))]['h_entrada_noite']);
+
+                                           if($schedules[tirarAcentos(strtolower($item))]['h_saida_noite'] != '00:00') 
+                                              $saidanoite   = strtotime($schedules[tirarAcentos(strtolower($item))]['h_saida_noite']);
+                                        
                                         $totaldia = ($saidaManha - $entradaManha) + ($saidatarde - $entradatarde) + ($saidanoite - $entradanoite);
                                         $horas    = date('H:i', $totaldia);
 
                                         echo $horas;
-
+                                        }else{
+                                            echo "00:00";
+                                        }
                                         @endphp
                                     </td>    
                                 </tr>
