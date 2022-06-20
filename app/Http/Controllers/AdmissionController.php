@@ -189,35 +189,31 @@ class AdmissionController extends Controller
                 'vt_desconto' => 'required|max:255',
                 'termo' => 'required|max:255',
             ]);
-        }
-        $redirect = redirect()->back();
-        // if(is_null($request->arquivo)){
 
-        //     return $redirect->with([
-        //         'error'    => "Anexar os arquivos dos DOCUMENTOS PESSOAIS  é obrigatório!"
-        //     ]);
-        // }else
-        if(is_null($request->doc['cedula_identidade']['text'])){
-                return $redirect->with([
-                    'error'    => "DOCUMENTOS PESSOAIS - Identidade  é obrigatório!"
-                ]);
-            }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                return $redirect->with([
-                    'error'    => "DOCUMENTOS PESSOAIS - CPF  é obrigatório!"
-                ]);
-            }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                return $redirect->with([
-                    'error'    => "DOCUMENTOS PESSOAIS - Titulo de eleitor  é obrigatório!"
-                ]);
-            }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                return $redirect->with([
-                    'error'    => "DOCUMENTOS PESSOAIS - Certidão reservista  é obrigatório!"
-                ]);
-            }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                return $redirect->with([
-                    'error'    => "DOCUMENTOS PESSOAIS - PIS/PASEP  é obrigatório!"
-                ]);
-            }
+            $redirect = redirect()->back();
+            if(is_null($request->doc['cedula_identidade']['text'])){
+                    return $redirect->with([
+                        'error'    => "DOCUMENTOS PESSOAIS - Identidade  é obrigatório!"
+                    ]);
+                }elseif(is_null($request->doc['cedula_identidade']['text'])){
+                    return $redirect->with([
+                        'error'    => "DOCUMENTOS PESSOAIS - CPF  é obrigatório!"
+                    ]);
+                }elseif(is_null($request->doc['cedula_identidade']['text'])){
+                    return $redirect->with([
+                        'error'    => "DOCUMENTOS PESSOAIS - Titulo de eleitor  é obrigatório!"
+                    ]);
+                }elseif(is_null($request->doc['cedula_identidade']['text'])){
+                    return $redirect->with([
+                        'error'    => "DOCUMENTOS PESSOAIS - Certidão reservista  é obrigatório!"
+                    ]);
+                }elseif(is_null($request->doc['cedula_identidade']['text'])){
+                    return $redirect->with([
+                        'error'    => "DOCUMENTOS PESSOAIS - PIS/PASEP  é obrigatório!"
+                    ]);
+                }
+    
+        }
 
         foreach ($data as $key => $value) {
             if(!in_array($key,['_token','horario','arquivo','doc','filhos'])){
