@@ -128,92 +128,92 @@ class AdmissionController extends Controller
 
         $admission = Admission::find($id);
 
-        if($etapa == 1){
+        // if($etapa == 1){
 
-            if(is_null($data['dt_admissao'])){
-                return response()->json([
-                    'success' => false,
-                    'title' => 'Atenção',
-                    'text' => 'Informe a data de admissão!',
-                ],500);
-            }elseif(is_null($data['cargo'])){
-                return response()->json([
-                    'success' => false,
-                    'title' => 'Atenção',
-                    'text' => 'Informe o cargo!',
-                ],500);
-            }elseif(is_null($data['salario'])){
-                return response()->json([
-                    'success' => false,
-                    'title' => 'Atenção',
-                    'text' => 'Informe o salário!',
-                ],500);
-            }if($data['experiencia_dias'] == 0){
-                return response()->json([
-                    'success' => false,
-                    'title' => 'Atenção',
-                    'text' => 'Informe a experiência em dias!',
-                ],500);
-            }if(is_null($data['modalidade'])){
-                return response()->json([
-                    'success' => false,
-                    'title' => 'Atenção',
-                    'text' => 'Informe a modalidade!',
-                ],500);
-            }
+        //     if(is_null($data['dt_admissao'])){
+        //         return response()->json([
+        //             'success' => false,
+        //             'title' => 'Atenção',
+        //             'text' => 'Informe a data de admissão!',
+        //         ],500);
+        //     }elseif(is_null($data['cargo'])){
+        //         return response()->json([
+        //             'success' => false,
+        //             'title' => 'Atenção',
+        //             'text' => 'Informe o cargo!',
+        //         ],500);
+        //     }elseif(is_null($data['salario'])){
+        //         return response()->json([
+        //             'success' => false,
+        //             'title' => 'Atenção',
+        //             'text' => 'Informe o salário!',
+        //         ],500);
+        //     }if($data['experiencia_dias'] == 0){
+        //         return response()->json([
+        //             'success' => false,
+        //             'title' => 'Atenção',
+        //             'text' => 'Informe a experiência em dias!',
+        //         ],500);
+        //     }if(is_null($data['modalidade'])){
+        //         return response()->json([
+        //             'success' => false,
+        //             'title' => 'Atenção',
+        //             'text' => 'Informe a modalidade!',
+        //         ],500);
+        //     }
 
-        }else{
-            $request->validate([
-                'nome' => 'required|max:255',
-                'sexo' => 'required|max:255',
-                'endereco' => 'required|max:255',
-                'numero' => 'required|max:255',
-                'complemento' => 'required|max:255',
-                'bairro' => 'required|max:255',
-                'estado' => 'required|max:255',
-                'cep' => 'required|max:255',
-                'nacionalidade' => 'required|max:255',
-                'loca_nascimento' => 'required|max:255',
-                'nascimento' => 'required|date',
-                'tipo_deficiencia' => 'required|max:255',
-                'cor' => 'required|max:255',
-                'email' => 'required|max:255|email',
-                'nome_pai' => 'required|max:255',
-                'nome_mae' => 'required|max:255',
-                'estado_civil' => 'required|max:255',
-                'nome_esposa' => 'required|max:255',
-                'esposa_nascimento' => 'required|max:255',
-                'escolaridade' => 'required|max:255',
-                'vale_transporte' => 'required|max:255',
-                'vt_modalidade' => 'required|max:255',
-                'vt_desconto' => 'required|max:255',
-                'termo' => 'required|max:255',
-            ]);
+        // }else{
+        //     $request->validate([
+        //         'nome' => 'required|max:255',
+        //         'sexo' => 'required|max:255',
+        //         'endereco' => 'required|max:255',
+        //         'numero' => 'required|max:255',
+        //         'complemento' => 'required|max:255',
+        //         'bairro' => 'required|max:255',
+        //         'estado' => 'required|max:255',
+        //         'cep' => 'required|max:255',
+        //         'nacionalidade' => 'required|max:255',
+        //         'loca_nascimento' => 'required|max:255',
+        //         'nascimento' => 'required|date',
+        //         'tipo_deficiencia' => 'required|max:255',
+        //         'cor' => 'required|max:255',
+        //         'email' => 'required|max:255|email',
+        //         'nome_pai' => 'required|max:255',
+        //         'nome_mae' => 'required|max:255',
+        //         'estado_civil' => 'required|max:255',
+        //         'nome_esposa' => 'required|max:255',
+        //         'esposa_nascimento' => 'required|max:255',
+        //         'escolaridade' => 'required|max:255',
+        //         'vale_transporte' => 'required|max:255',
+        //         'vt_modalidade' => 'required|max:255',
+        //         'vt_desconto' => 'required|max:255',
+        //         'termo' => 'required|max:255',
+        //     ]);
 
-            $redirect = redirect()->back();
-            if(is_null($request->doc['cedula_identidade']['text'])){
-                    return $redirect->with([
-                        'error'    => "DOCUMENTOS PESSOAIS - Identidade  é obrigatório!"
-                    ]);
-                }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                    return $redirect->with([
-                        'error'    => "DOCUMENTOS PESSOAIS - CPF  é obrigatório!"
-                    ]);
-                }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                    return $redirect->with([
-                        'error'    => "DOCUMENTOS PESSOAIS - Titulo de eleitor  é obrigatório!"
-                    ]);
-                }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                    return $redirect->with([
-                        'error'    => "DOCUMENTOS PESSOAIS - Certidão reservista  é obrigatório!"
-                    ]);
-                }elseif(is_null($request->doc['cedula_identidade']['text'])){
-                    return $redirect->with([
-                        'error'    => "DOCUMENTOS PESSOAIS - PIS/PASEP  é obrigatório!"
-                    ]);
-                }
+        //     $redirect = redirect()->back();
+        //     if(is_null($request->doc['cedula_identidade']['text'])){
+        //             return $redirect->with([
+        //                 'error'    => "DOCUMENTOS PESSOAIS - Identidade  é obrigatório!"
+        //             ]);
+        //         }elseif(is_null($request->doc['cedula_identidade']['text'])){
+        //             return $redirect->with([
+        //                 'error'    => "DOCUMENTOS PESSOAIS - CPF  é obrigatório!"
+        //             ]);
+        //         }elseif(is_null($request->doc['cedula_identidade']['text'])){
+        //             return $redirect->with([
+        //                 'error'    => "DOCUMENTOS PESSOAIS - Titulo de eleitor  é obrigatório!"
+        //             ]);
+        //         }elseif(is_null($request->doc['cedula_identidade']['text'])){
+        //             return $redirect->with([
+        //                 'error'    => "DOCUMENTOS PESSOAIS - Certidão reservista  é obrigatório!"
+        //             ]);
+        //         }elseif(is_null($request->doc['cedula_identidade']['text'])){
+        //             return $redirect->with([
+        //                 'error'    => "DOCUMENTOS PESSOAIS - PIS/PASEP  é obrigatório!"
+        //             ]);
+        //         }
     
-        }
+        // }
 
         foreach ($data as $key => $value) {
             if(!in_array($key,['_token','horario','arquivo','doc','filhos'])){

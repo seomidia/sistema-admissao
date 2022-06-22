@@ -86,29 +86,42 @@
             <td><label for="">TELEFONE</label> <br>{{$admission->fone}}</td>
             <td><label for="">CELULAR</label> <br>{{$admission->celular}}</td>
         </tr>
-@if(count($files) > 0)
+
         <tr>
             <td class="title" colspan="3" style="text-align: center;">DOCUMENTOS PESSOAIS (anexos)</td>
         </tr>
         {{-- <tr>
             <td colspan="3"><a target="_blanck" href="{{url($files['carteira_trabalho']['url'])}}" class="btn btn-primary open"><label for="">CARTEIRA DE TRABALHO </label> </a></td>
         </tr> --}}
+        @if(isset($files['cedula_identidade']))
         <tr>
             <td colspan="2"><a target="_blanck" href="{{url($files['cedula_identidade']['url'])}}" class="btn btn-primary open"><label for="">CÉDULA DE IDENTIDADE  </label> </a> </td>
             <td>{{$admission->cedula_identidade}}</td>
         </tr>
+        @endif
+
+        @if(isset($files['cpf']))
         <tr>
             <td colspan="2"><a target="_blanck" href="{{url($files['cpf']['url'])}}" class="btn btn-primary open"><label for="">CPF  </label> </a></td>
             <td>{{$admission->cpf}}</td>
         </tr>
+        @endif
+
+        @if(isset($files['titulo_eleitor']))
         <tr>
             <td colspan="2"><a target="_blanck" href="{{url($files['titulo_eleitor']['url'])}}" class="btn btn-primary open"><label for="">TITULO DE ELEITOR </label> </a> </td>
             <td>{{$admission->titulo_eleitor}}</td>
         </tr>
+        @endif
+
+        @if(isset($files['cert_reservista']))
         <tr>
             <td colspan="2"><a target="_blanck" href="{{url($files['cert_reservista']['url'])}}" class="btn btn-primary open"><label for="">CERT. DE RESERVISTA </label> </a> </td>
             <td>{{$admission->cert_reservista}}</td>
         </tr>
+        @endif
+        
+        @if(isset($files['pis']))
         <tr>
             <td colspan="2"><a target="_blanck" href="{{url($files['pis']['url'])}}" class="btn btn-primary open"><label for="">PIS/PASEP </label> </a> </td>
             <td>{{$admission->pis}} @if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
