@@ -128,7 +128,7 @@ class AdmissionController extends Controller
 
         $admission = Admission::find($id);
 
-        // if($etapa == 1){
+        if($etapa == 1){
 
         //     if(is_null($data['dt_admissao'])){
         //         return response()->json([
@@ -162,8 +162,8 @@ class AdmissionController extends Controller
         //         ],500);
         //     }
 
-        // }else{
-        //     $request->validate([
+        }else{
+            $request->validate([
         //         'nome' => 'required|max:255',
         //         'sexo' => 'required|max:255',
         //         'endereco' => 'required|max:255',
@@ -187,8 +187,8 @@ class AdmissionController extends Controller
         //         'vale_transporte' => 'required|max:255',
         //         'vt_modalidade' => 'required|max:255',
         //         'vt_desconto' => 'required|max:255',
-        //         'termo' => 'required|max:255',
-        //     ]);
+                'termo' => 'required|max:255',
+            ]);
 
         //     $redirect = redirect()->back();
         //     if(is_null($request->doc['cedula_identidade']['text'])){
@@ -213,7 +213,7 @@ class AdmissionController extends Controller
         //             ]);
         //         }
     
-        // }
+        }
 
         foreach ($data as $key => $value) {
             if(!in_array($key,['_token','horario','arquivo','doc','filhos'])){
