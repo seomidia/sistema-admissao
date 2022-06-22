@@ -93,33 +93,45 @@
         {{-- <tr>
             <td colspan="3"><a target="_blanck" href="{{url($files['carteira_trabalho']['url'])}}" class="btn btn-primary open"><label for="">CARTEIRA DE TRABALHO </label> </a></td>
         </tr> --}}
-        @if(isset($files['cedula_identidade']))
         <tr>
+            @if(isset($files['cedula_identidade']))
             <td colspan="2"><a target="_blanck" href="{{url($files['cedula_identidade']['url'])}}" class="btn btn-primary open"><label for="">CÉDULA DE IDENTIDADE  </label> </a> </td>
             <td>{{$admission->cedula_identidade}}</td>
+            @else 
+            <td colspan="2"><label for="">CÉDULA DE IDENTIDADE  </label></td>
+            <td>{{$admission->cedula_identidade}}</td>
+            @endif
         </tr>
-        @endif
 
-        @if(isset($files['cpf']))
         <tr>
+            @if(isset($files['cpf']))
             <td colspan="2"><a target="_blanck" href="{{url($files['cpf']['url'])}}" class="btn btn-primary open"><label for="">CPF  </label> </a></td>
             <td>{{$admission->cpf}}</td>
+            @else 
+            <td colspan="2"><label for="">CPF  </label> </td>
+            <td>{{$admission->cpf}}</td>
+            @endif
         </tr>
-        @endif
 
-        @if(isset($files['titulo_eleitor']))
         <tr>
+            @if(isset($files['cpf']))
             <td colspan="2"><a target="_blanck" href="{{url($files['titulo_eleitor']['url'])}}" class="btn btn-primary open"><label for="">TITULO DE ELEITOR </label> </a> </td>
             <td>{{$admission->titulo_eleitor}}</td>
+            @else 
+            <td colspan="2"><label for="">TITULO DE ELEITOR </label> </td>
+            <td>{{$admission->titulo_eleitor}}</td>
+            @endif
         </tr>
-        @endif
 
-        @if(isset($files['cert_reservista']))
         <tr>
+            @if(isset($files['cert_reservista']))
             <td colspan="2"><a target="_blanck" href="{{url($files['cert_reservista']['url'])}}" class="btn btn-primary open"><label for="">CERT. DE RESERVISTA </label> </a> </td>
             <td>{{$admission->cert_reservista}}</td>
+            @else
+            <td colspan="2"><label for="">CERT. DE RESERVISTA </label></td>
+            <td>{{$admission->cert_reservista}}</td>
+            @endif
         </tr>
-        @endif
         
         <tr>
             @if(isset($files['pis']))
