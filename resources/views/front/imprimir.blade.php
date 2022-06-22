@@ -126,7 +126,7 @@
             <td colspan="2"><a target="_blanck" href="{{url($files['pis']['url'])}}" class="btn btn-primary open"><label for="">PIS/PASEP </label> </a> </td>
             <td>{{$admission->pis}} @if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
             @else 
-            @if(isset($admission->primeiro_emprego))
+            @if(isset($admission->primeiro_emprego) && $admission->primeiro_emprego != '')
             <td colspan="2"><label for="">PIS/PASEP </label></td>
             <td>@if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
             @endif
