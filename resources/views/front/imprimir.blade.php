@@ -121,12 +121,15 @@
         </tr>
         @endif
         
-        @if(isset($files['pis']))
         <tr>
+            @if(isset($files['pis']))
             <td colspan="2"><a target="_blanck" href="{{url($files['pis']['url'])}}" class="btn btn-primary open"><label for="">PIS/PASEP </label> </a> </td>
             <td>{{$admission->pis}} @if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
+            @else 
+            <td colspan="2"><label for="">PIS/PASEP </label></td>
+            <td>@if($admission->primeiro_emprego =='sim') Primeiro emprego @endif</td>
+            @endif
         </tr>
-        @endif
         <tr>
             <td class="title" colspan="3" style="text-align: center;">DADOS FAMILIARES</td>
         </tr>
