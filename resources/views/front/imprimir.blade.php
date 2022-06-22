@@ -114,7 +114,7 @@
         </tr>
 
         <tr>
-            @if(isset($files['cpf']))
+            @if(isset($files['titulo_eleitor']))
             <td colspan="2"><a target="_blanck" href="{{url($files['titulo_eleitor']['url'])}}" class="btn btn-primary open"><label for="">TITULO DE ELEITOR </label> </a> </td>
             <td>{{$admission->titulo_eleitor}}</td>
             @else 
