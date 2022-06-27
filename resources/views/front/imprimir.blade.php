@@ -169,14 +169,7 @@
             <td colspan="2">O FUNCIONÁRIO DESEJA VALE TRANSPORTE?</td>
             <td> @if($admission->vale_transporte == 1) Sim @else Nao @endif</td>
         </tr>
-        <tr>
-            <td colspan="2"> Deseja receber vale transporte:</td>
-            <td>
-                @php 
-                    echo $admission->vt_modalidade;
-                @endphp
-            </td>
-        </tr>
+
         <tr>
             <td colspan="2">DESCONTAR % DO FUNCIONÁRIO. </td>
             <td>{{$admission->vt_desconto}}%</td>

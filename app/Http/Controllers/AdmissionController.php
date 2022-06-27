@@ -20,7 +20,7 @@ class AdmissionController extends Controller
      */
     public function index($admission_id,$etapa)
     {
-        $diasSemana = ['Segunda','Terçã','Quarta','Quinta','Sexta','Sábado','Domingo'];
+        $diasSemana = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
         
         $files = $this->get_Files($admission_id);
 
@@ -224,7 +224,6 @@ class AdmissionController extends Controller
                 }
                $admission->save();
             }elseif($key == 'arquivo'){
-
                 foreach ($request->arquivo as $key => $value) {
                     $name = uniqid(date('HisYmd'));
                     $extension = $value->extension();

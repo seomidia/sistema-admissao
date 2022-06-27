@@ -467,15 +467,13 @@
                             <label for="escolaridade" class="form-label">Escolaridade</label>
                             <select name="escolaridade" id="escolaridade" class="form-control">
                                 <option value="">Selecione</option>
-                                <option value="analfabeto" @if($admission->escolaridade == 'amasiado') selected @endif>ANALFABETO</option>
-                                <option value="primario incompleto" @if($admission->escolaridade == 'primario incompleto') selected @endif>PRIMÁRIO INCOMPLETO</option>
-                                <option value="primario completo" @if($admission->escolaridade == 'primario completo') selected @endif>PRIMÁRIO COMPLETO </option>
-                                <option value="ginasio incompleto" @if($admission->escolaridade == 'ginasio incompleto') selected @endif>GINÁSIO INCOMPLETO </option>
-                                <option value="ginasio completo" @if($admission->escolaridade == 'ginasio completo') selected @endif>GINÁSIO COMPLETO </option>
-                                <option value="colegial incompleto" @if($admission->escolaridade == 'colegial incompleto') selected @endif>COLEGIAL INCOMPLETO</option>
-                                <option value="colegial completo" @if($admission->escolaridade == 'colegial completo') selected @endif>COLEGIAL COMPLETO  </option>
-                                <option value="superior incompleto" @if($admission->escolaridade == 'superior incompleto') selected @endif>SUPERIOR INCOMPLETO </option>
-                                <option value="superior completo" @if($admission->escolaridade == 'superior completo') selected @endif>SUPERIOR COMPLETO  </option>
+                                <option value="Analfabeto" @if($admission->escolaridade == 'Analfabeto') selected @endif>Analfabeto</option>
+                                <option value="Ensino Fundamental I" @if($admission->escolaridade == 'Ensino Fundamental I') selected @endif>Ensino Fundamental I</option>
+                                <option value="Ensino Fundamental II" @if($admission->escolaridade == 'Ensino Fundamental II') selected @endif>Ensino Fundamental II</option>
+                                <option value="Ensino médio completo" @if($admission->escolaridade == 'Ensino médio completo') selected @endif>Ensino médio completo</option>
+                                <option value="Ensino médio incompleto" @if($admission->escolaridade == 'Ensino médio incompleto') selected @endif>Ensino médio incompleto</option>
+                                <option value="Superior Incompleto" @if($admission->escolaridade == 'Superior Incompleto') selected @endif>Superior Incompleto</option>
+                                <option value="Superior Completo" @if($admission->escolaridade == 'Superior Completo') selected @endif>Superior Completo</option>
                             </select>
                         </div>
                     </div>
