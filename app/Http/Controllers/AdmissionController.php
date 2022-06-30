@@ -409,7 +409,7 @@ class AdmissionController extends Controller
 
     public function print($admission_id)
     {
-        $diasSemana = ['Segunda','Terçã','Quarta','Quinta','Sexta','Sábado','Domingo'];
+        $diasSemana = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
 
         $files = $this->get_Files($admission_id);
 
