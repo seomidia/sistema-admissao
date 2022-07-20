@@ -29,8 +29,8 @@ class SendadmissionNotification
     public function handle(AdmissionProcessed $event)
     {
         $admission = $event->admission;
- 
-        \Mail::to((setting('admin.emailnotification')))
-                    ->send(new AdmissionProcessedMail($admission)); 
+        $email = setting('admin.emailnotification');
+        \Mail::to(($email))
+                    ->send(new AdmissionProcessedMail($admission,$email)); 
     }
 }

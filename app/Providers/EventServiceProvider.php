@@ -34,9 +34,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Event::listen(
-            AdmissionProcessed::class,
-            [SendadmissionNotification::class, 'handle']
-        );
+        // Event::listen(
+        //     AdmissionProcessed::class,
+        //     [SendadmissionNotification::class, 'handle']
+        // );
     }
 }

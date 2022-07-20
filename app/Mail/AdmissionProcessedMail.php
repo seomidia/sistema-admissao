@@ -18,9 +18,10 @@ class AdmissionProcessedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($Admission)
+    public function __construct($Admission,$email)
     {
         $this->Admission = $Admission;
+        $this->Email = $email;
     }
 
     /**
@@ -30,6 +31,8 @@ class AdmissionProcessedMail extends Mailable
      */
     public function build()
     {
+        $this->subject('JL Ramos - Admissão.');
+        $this->to($this->Email);
         return $this->markdown('emails.admission.admission',['admission' => $this->Admission]);
     }
 }

@@ -4,7 +4,7 @@
 Ola, um formulario de admissão acaba de ser atualizado,
 acesse o link abaixo.
 
-@component('mail::button', ['url' => url('/') . "/admissao/{$admission->id}/solicitacao"])
+@component('mail::button', ['url' => url('/') . "/admissao/{$admission->id}/1/solicitacao"])
 Admissão
 @endcomponent
 
